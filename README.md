@@ -10,7 +10,7 @@
 
 <br>
 
-#### CMD example:
+#### 결과 예시:
 
 ![결과 예시](./samples/example_output.png)
  > output_files 폴더에 있는 sample 결과 텍스트 파일을 확인해 보세요.
