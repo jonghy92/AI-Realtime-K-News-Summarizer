@@ -28,7 +28,7 @@
 <br>
 
 
-**1. Requirements:**
+**1. Requirements & Use:**
 1. OS: Windows 11 (테스트된 환경) 
 2. Python Version 3.10.0 설치
 3. requirements.txt 필요/담긴 라이브러리 설치
