@@ -1,0 +1,6 @@
+pandas
+langchain
+beautifulsoup4
+chromadb
+trafilatura
+tqdm
