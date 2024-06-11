@@ -17,7 +17,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.chat_models import ChatOllama
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 import shutil
@@ -75,10 +75,13 @@ for category in tqdm(news_categories_list, "Extracting Info"):
 
     ## 3. 추출
     for url in href_lis:
-        extraction = list(extract_data_from_url(url))
-        extraction.append(category_name)
-        extraction.append(url)
-        Total_collection.append(extraction)
+        try:
+            extraction = list(extract_data_from_url(url))
+            extraction.append(category_name)
+            extraction.append(url)
+            Total_collection.append(extraction)
+        except:
+            print(f"잘못된 URL 포맷, 내용을 제외합니다 ... {url}")
         #print("Collection Completed :", url)
         time.sleep(0.5)
 
@@ -128,7 +131,7 @@ for category in category_list:
 
         vectorstore = Chroma.from_documents(
             documents=doc_splits,
-            collection_name="rag-chroma",
+            # collection_name="rag-chroma",
             embedding=OllamaEmbeddings(model="nomic-embed-text", show_progress=False), 
         )
         
@@ -142,7 +145,7 @@ for category in category_list:
                             {context}
                             Question: {question}
                             """
-        after_rag_prompt = ChatPromptTemplate.from_template(after_rag_template)
+        after_rag_prompt = PromptTemplate.from_template(after_rag_template)
         after_rag_chain = (
             {"context": retriever, "question": RunnablePassthrough()}
             | after_rag_prompt
@@ -155,7 +158,7 @@ for category in category_list:
         
         # ============================================== Write ================================================= #
         with open(f"./output_files/research_rslt_{reportgen_time_log}.txt", mode="a", encoding='utf-8') as file:
-            file.write("\n")
+            file.write("\n")                
             file.write(f"News_Category: {news_category_nm} \n")
             file.write(f"News_Time: {news_time} \n")
             file.write(f"News_Title: {news_title} \n")

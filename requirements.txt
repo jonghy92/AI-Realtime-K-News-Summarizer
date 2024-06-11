@@ -1,6 +1,6 @@
 pandas
-langchain
+langchain==0.1.16
 beautifulsoup4
-chromadb
+chromadb==0.4.4
 trafilatura
 tqdm
